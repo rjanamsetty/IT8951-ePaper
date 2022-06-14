@@ -66,7 +66,7 @@ void Handler(int signo) {
 int main(int argc, char *argv[]) {
     //Exception handling:ctrl + c
     signal(SIGINT, Handler);
-    if (argc != 3 && argc != 4){
+    if (argc != 3 && argc != 4) {
         Debug("Usage: ./epd [VCOM] [DISPLAY MODE] or ./epd [VCOM] [DISPLAY MODE] [BMP FILEPATH]\r\n");
         exit(1);
     }
@@ -117,7 +117,9 @@ int main(int argc, char *argv[]) {
     }
     Debug("A2 Mode:%d\r\n", A2_Mode);
 
-    EPD_IT8951_Clear_Refresh(Dev_Info, Init_Target_Memory_Addr, INIT_Mode);
+    if (argc == 3) {
+        EPD_IT8951_Clear_Refresh(Dev_Info, Init_Target_Memory_Addr, INIT_Mode);
+    }
 
 #if(USE_Factory_Test)
     if(epd_mode == 3) 	// Color Test
