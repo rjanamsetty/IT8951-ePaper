@@ -181,8 +181,10 @@ int main(int argc, char *argv[]) {
     //EPD_IT8951_Standby();
     EPD_IT8951_Sleep();
 
+#if (!USE_Bmp_Upload)
     //In case RPI is transmitting image in no hold mode, which requires at most 10s
     DEV_Delay_ms(5000);
+#endif
 
     DEV_Module_Exit();
     return 0;
