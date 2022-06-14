@@ -167,13 +167,13 @@ int main(int argc, char *argv[]) {
     TouchPanel_ePaper_Example(Panel_Width, Panel_Height, Init_Target_Memory_Addr);
 #endif
 
-    //We recommended refresh the panel to white color before storing in the warehouse.
-    EPD_IT8951_Clear_Refresh(Dev_Info, Init_Target_Memory_Addr, INIT_Mode);
-
 #if (USE_Bmp_Upload)
     if (argc == 4){
         Display_BMP(Panel_Width, Panel_Height, Init_Target_Memory_Addr, BitsPerPixel_4, argv[3]);
     }
+#else
+    //We recommended refresh the panel to white color before storing in the warehouse.
+    EPD_IT8951_Clear_Refresh(Dev_Info, Init_Target_Memory_Addr, INIT_Mode);
 #endif
 
     //EPD_IT8951_Standby();
