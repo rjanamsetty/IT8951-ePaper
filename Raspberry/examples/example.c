@@ -202,7 +202,7 @@ parameter:
     BitsPerPixel: Bits Per Pixel, 2^BitsPerPixel = grayscale
     Path: The filepath to the BMP file
 ******************************************************************************/
-UBYTE Display_BMP(UWORD Panel_Width, UWORD Panel_Height, UDOUBLE Init_Target_Memory_Addr, UBYTE BitsPerPixel, Char *Path) {
+UBYTE Display_BMP(UWORD Panel_Width, UWORD Panel_Height, UDOUBLE Init_Target_Memory_Addr, UBYTE BitsPerPixel, char *Path) {
 
     // Define the Image Size
     UWORD WIDTH = Four_Byte_Align ? Panel_Width - (Panel_Width % 32) : Panel_Width;
