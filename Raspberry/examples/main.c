@@ -11,11 +11,14 @@
 
 #define USE_Factory_Test false
 
-#define USE_Normal_Demo true
+#define USE_Normal_Demo false
 
 #define USE_Touch_Panel false
 
+#define USE_Bmp_Upload true
+
 UWORD VCOM = 2510;
+char *Bmp_Path = NULL;
 
 IT8951_Dev_Info Dev_Info;
 UWORD Panel_Width;
@@ -63,17 +66,8 @@ void Handler(int signo) {
 int main(int argc, char *argv[]) {
     //Exception handling:ctrl + c
     signal(SIGINT, Handler);
-
-    if (argc < 2) {
-        Debug("Please input VCOM value on FPC cable!\r\n");
-        Debug("Example: sudo ./epd -2.51\r\n");
-        exit(1);
-    }
-    if (argc != 3) {
-        Debug("Please input e-Paper display mode!\r\n");
-        Debug("Example: sudo ./epd -2.51 0 or sudo ./epd -2.51 1\r\n");
-        Debug("Now, 10.3 inch glass panle is mode1, else is mode0\r\n");
-        Debug("If you don't know what to type in just type 0 \r\n");
+    if (argc != 3 && argc != 4){
+        Debug("Usage: ./epd [VCOM] [DISPLAY MODE] or ./epd [VCOM] [DISPLAY MODE] [BMP FILEPATH]\r\n");
         exit(1);
     }
 
@@ -132,7 +126,6 @@ int main(int argc, char *argv[]) {
         Factory_Test_Only(Dev_Info, Init_Target_Memory_Addr);
 #endif
 
-
 #if(USE_Normal_Demo)
     //Show 16 grayscale
     Display_ColorPalette_Example(Panel_Width, Panel_Height, Init_Target_Memory_Addr);
@@ -168,7 +161,6 @@ int main(int argc, char *argv[]) {
     EPD_IT8951_Clear_Refresh(Dev_Info, Init_Target_Memory_Addr, GC16_Mode);
 #endif
 
-
 #if(USE_Touch_Panel)
     //show a simple demo for hand-painted tablet, only support for <6inch HD touch e-Paper> at present
     EPD_IT8951_Clear_Refresh(Dev_Info, Init_Target_Memory_Addr, INIT_Mode);
@@ -178,6 +170,12 @@ int main(int argc, char *argv[]) {
     //We recommended refresh the panel to white color before storing in the warehouse.
     EPD_IT8951_Clear_Refresh(Dev_Info, Init_Target_Memory_Addr, INIT_Mode);
 
+#if (USE_Bmp_Upload)
+    if (argc == 4){
+        Display_BMP(Panel_Width, Panel_Height, Init_Target_Memory_Addr, BitsPerPixel_4, argv[3]);
+    }
+#endif
+
     //EPD_IT8951_Standby();
     EPD_IT8951_Sleep();
 
@@ -186,4 +184,5 @@ int main(int argc, char *argv[]) {
 
     DEV_Module_Exit();
     return 0;
+
 }
